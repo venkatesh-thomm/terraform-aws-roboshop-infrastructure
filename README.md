@@ -34,6 +34,7 @@ Terraform/
 ├── provider.tf          # Provider configuration
 ├── variables.tf         # Input variables
 ├── outputs.tf           # Output values
+|── parameers.tf         # Stores the Values in ssm paremter 
 ├── terraform.tfvars     # Variable values (not committed in production)
 ├── .gitignore           # Ignored files
 └── README.md            # Project documentation
