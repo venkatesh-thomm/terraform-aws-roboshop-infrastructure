@@ -196,7 +196,7 @@ These files:
 ### ✅ Best Practice: Remote Backend
 
 * S3 for state storage
-* DynamoDB for state locking
+* use_lockfile = true  for state locking
 
 ### Example:
 
@@ -206,7 +206,7 @@ terraform {
     bucket         = "my-terraform-state-bucket"
     key            = "terraform/terraform.tfstate"
     region         = "ap-south-1"
-    dynamodb_table = "terraform-lock-table"
+    use_lockfile   = true 
     encrypt        = true
   }
 }
@@ -267,14 +267,13 @@ git pull --rebase
 
 ### Terraform State Lock Issue
 
-* Check DynamoDB lock table
 * Remove stale lock entry if needed
 
 ---
 
 ## 📈 Future Improvements
 
-* Implement CI/CD using GitHub Actions or Azure DevOps
+* Implement CI/CD using GitHub Actions 
 * Convert code into reusable Terraform modules
 * Introduce multi-environment setup (dev/stage/prod)
 * Integrate monitoring (Prometheus, Grafana)
