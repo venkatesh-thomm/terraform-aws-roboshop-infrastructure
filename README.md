@@ -1,4 +1,4 @@
-# 🚀 Infrastructure Automation With Terrafrom and Ansible
+# 🚀 Infrastructure Automation with Terraform & Ansible
 
 ## 📌 Overview
 
@@ -51,6 +51,7 @@ Before running this project, ensure you have:
 - AWS CLI configured (`aws configure`)
 - IAM user with required permissions
 - Git installed
+- Ansible 
 
 ---
 
