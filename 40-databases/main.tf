@@ -160,7 +160,7 @@ resource "aws_instance" "mysql" {
 # IAM role attachment (to read SSM parameters, used by MySQL setup)
 resource "aws_iam_instance_profile" "mysql" {
   name = "mysql"
-  role = "EC2SSMParameterRead" # Pre-created IAM role with SSM read permissions
+  role = "EC2SSMParameterRead" # Pre-created IAM role with SSM read permissions.Please ensure this role exists in your AWS account before applying the Terraform configuration.
 }
 
 # Provision MySQL after instance creation

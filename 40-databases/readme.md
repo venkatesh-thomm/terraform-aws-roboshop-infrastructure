@@ -37,8 +37,9 @@ This installs and configures each database automatically after instance creation
 ---
 
 ### 3. IAM Instance Profile (for MySQL)
-MySQL instance attaches an **IAM Instance Profile** with the role `EC2SSMParameterRead`  
-→ allows it to securely read credentials (like DB passwords) from AWS Systems Manager Parameter Store.
+  MySQL instance attaches an **IAM Instance Profile** with the role `EC2SSMParameterRead`  Pre-created IAM role with SSM read permissions.Please ensure this role exists in your AWS account before applying the Terraform configuration. 
+
+  → allows it to securely read credentials (like DB passwords) from AWS Systems Manager Parameter Store.
 
 ---
 
