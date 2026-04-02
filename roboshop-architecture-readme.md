@@ -163,4 +163,9 @@ Example API:
 -   Confirm DNS propagation for both domains
 -   Monitor ALB logs for debugging
 
+# Flow:
+
+  for i in 00-vpc/ 10-sg/20-sg-rules/ 30-bastion/40-databases/50-backend-alb/65-acm/70-frontend-alb/80-components; do cd $i; terraform apply -auto-approve; cd .. ;done
+  80-components optional
+
 -----------------------------------------------------------
