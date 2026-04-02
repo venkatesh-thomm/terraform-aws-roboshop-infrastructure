@@ -2,27 +2,26 @@
 
 ## 📌 Overview
 
-This repository contains Infrastructure as Code (IaC) built using **Terraform** to provision and manage cloud infrastructure in an automated, repeatable, and scalable way.
+This repository demonstrates **Infrastructure as Code (IaC)** using **Terraform** to provision and manage cloud infrastructure in a scalable, repeatable, and automated way, along with **Ansible** for configuration management.
 
-This project demonstrates real-world DevOps practices including:
+This project reflects real-world DevOps practices including:
 
-- Infrastructure as Code (IaC)
-- Modular Terraform structure
-- Remote backend configuration
-- State management
-- Secure provider authentication
-- Version control best practices
-- Production-ready structure
+* Infrastructure as Code (IaC)
+* Modular Terraform design
+* Remote backend configuration
+* State management and locking
+* Secure authentication practices
+* Configuration management using Ansible
+* Production-ready project structure
 
 ---
 
 ## 🛠 Tech Stack
 
-- Terraform
-- AWS (or your cloud provider)
-- Git & GitHub
-- Remote Backend (S3 + DynamoDB recommended)
-- Ansible 
+* Terraform
+* AWS Services: VPC, EC2, S3, IAM, ALB, SSM, CloudFront, VPN, ACM
+* Ansible
+* Git & GitHub
 
 ---
 
@@ -31,12 +30,12 @@ This project demonstrates real-world DevOps practices including:
 ```
 Terraform/
 │
-├── main.tf              # Main infrastructure resources
-├── provider.tf          # Provider configuration
+├── main.tf              # Defines core infrastructure resources
+├── provider.tf          # Provider configuration (AWS)
 ├── variables.tf         # Input variables
 ├── outputs.tf           # Output values
-|── parameers.tf         # Stores the Values in ssm paremter 
-├── terraform.tfvars     # Variable values (not committed in production)
+├── parameters.tf        # Stores values in AWS SSM Parameter Store
+├── terraform.tfvars     # Variable values (excluded in production)
 ├── .gitignore           # Ignored files
 └── README.md            # Project documentation
 ```
@@ -45,13 +44,13 @@ Terraform/
 
 ## ⚙️ Prerequisites
 
-Before running this project, ensure you have:
+Ensure the following tools are installed and configured:
 
-- Terraform installed (`terraform -v`)
-- AWS CLI configured (`aws configure`)
-- IAM user with required permissions
-- Git installed
-- Ansible 
+* Terraform (`terraform -v`)
+* AWS CLI (`aws configure`)
+* IAM user with required permissions
+* Git
+* Ansible
 
 ---
 
@@ -59,16 +58,20 @@ Before running this project, ensure you have:
 
 Terraform authenticates using:
 
-- AWS CLI configured credentials  
-OR  
-- Environment variables:
+### Option 1: AWS CLI
+
+```
+aws configure
+```
+
+### Option 2: Environment Variables
 
 ```
 export AWS_ACCESS_KEY_ID="your_access_key"
 export AWS_SECRET_ACCESS_KEY="your_secret_key"
 ```
 
-⚠️ Never commit secrets to GitHub.
+⚠️ **Important:** Never commit secrets to GitHub.
 
 ---
 
@@ -80,7 +83,7 @@ export AWS_SECRET_ACCESS_KEY="your_secret_key"
 terraform init
 ```
 
-This downloads required providers and initializes backend.
+Downloads providers and initializes backend.
 
 ---
 
@@ -90,11 +93,11 @@ This downloads required providers and initializes backend.
 terraform validate
 ```
 
-Checks syntax and configuration correctness.
+Checks for syntax and configuration issues.
 
 ---
 
-### 3️⃣ Format Code (Best Practice)
+### 3️⃣ Format Code
 
 ```
 terraform fmt
@@ -110,7 +113,7 @@ Ensures consistent formatting.
 terraform plan
 ```
 
-Shows what resources will be created/modified/destroyed.
+Shows execution plan before applying changes.
 
 ---
 
@@ -120,9 +123,7 @@ Shows what resources will be created/modified/destroyed.
 terraform apply
 ```
 
-Creates infrastructure.
-
-To auto-approve:
+Auto-approve:
 
 ```
 terraform apply -auto-approve
@@ -136,13 +137,50 @@ terraform apply -auto-approve
 terraform destroy
 ```
 
-Removes all managed resources.
+---
+
+## ⚙️ Configuration Management (Ansible)
+
+After provisioning infrastructure using Terraform, **Ansible** is used for:
+
+* Application deployment
+* Package installation
+* Server configuration
+* Service management
+
+### Example:
+
+```
+ansible-playbook -i inventory playbook.yml
+```
+
+---
+
+## 🏗 Architecture Overview
+
+This project provisions:
+
+* VPC with public/private subnets
+* EC2 instances for application hosting
+* S3 bucket for Terraform remote state
+* DynamoDB table for state locking
+* IAM roles and policies for secure access
+* AWS SSM Parameter Store for secret management
+
+---
+
+## 🔁 DevOps Workflow
+
+1. Developer pushes code to GitHub
+2. Terraform provisions infrastructure
+3. Ansible configures servers
+4. Application is deployed automatically
 
 ---
 
 ## 📦 State Management
 
-Terraform state files:
+Terraform generates:
 
 ```
 terraform.tfstate
@@ -151,18 +189,16 @@ terraform.tfstate.backup
 
 These files:
 
-- Store infrastructure metadata
-- Map real resources to Terraform config
-- Should NEVER be committed
+* Store infrastructure metadata
+* Map real resources to configuration
+* Must NOT be committed
 
-### ✅ Best Practice
+### ✅ Best Practice: Remote Backend
 
-Use remote backend:
+* S3 for state storage
+* DynamoDB for state locking
 
-- AWS S3 for state storage
-- DynamoDB for state locking
-
-Example backend configuration:
+### Example:
 
 ```hcl
 terraform {
@@ -179,8 +215,6 @@ terraform {
 ---
 
 ## 🔄 Versioning
-
-Terraform version is controlled using:
 
 ```hcl
 terraform {
@@ -199,63 +233,61 @@ terraform {
 
 ## 🧠 Best Practices Followed
 
-- Modular structure
-- Variables used instead of hardcoding
-- Outputs defined properly
-- Sensitive values not committed
-- `.gitignore` configured correctly
-- Clean Git commit history
-- Infrastructure reproducibility
-- Remote state recommended
+* Modular and scalable structure
+* Variables used instead of hardcoding
+* Sensitive data secured
+* Clean and readable code
+* Remote state management
+* Version-controlled infrastructure
+* Reproducible deployments
 
 ---
 
 ## 📊 Commands Cheat Sheet
 
-| Command | Description |
-|----------|-------------|
-| terraform init | Initialize project |
-| terraform validate | Validate config |
-| terraform fmt | Format code |
-| terraform plan | Preview changes |
-| terraform apply | Apply changes |
-| terraform destroy | Destroy infra |
-| terraform show | Show current state |
+| Command            | Description            |
+| ------------------ | ---------------------- |
+| terraform init     | Initialize project     |
+| terraform validate | Validate configuration |
+| terraform fmt      | Format code            |
+| terraform plan     | Preview changes        |
+| terraform apply    | Apply changes          |
+| terraform destroy  | Destroy infrastructure |
+| terraform show     | Display current state  |
 
 ---
 
 ## 🔍 Troubleshooting
 
-### Non-fast-forward Git error
-Resolve by:
+### Git Non-Fast-Forward Error
+
 ```
 git pull --rebase
 ```
 
-### State Lock Error
-Check DynamoDB lock table and remove stale lock.
+### Terraform State Lock Issue
+
+* Check DynamoDB lock table
+* Remove stale lock entry if needed
 
 ---
 
 ## 📈 Future Improvements
 
-- Convert to reusable modules
-- Implement CI/CD with GitHub Actions
-- Add remote backend configuration
-- Add environment-based folders (dev/stage/prod)
-- Integrate with Kubernetes or EKS
+* Implement CI/CD using GitHub Actions or Azure DevOps
+* Convert code into reusable Terraform modules
+* Introduce multi-environment setup (dev/stage/prod)
+* Integrate monitoring (Prometheus, Grafana)
+* Deploy applications on Kubernetes (EKS)
 
 ---
 
-## Architecture Diagram
+## 🖼 Architecture Diagram
+
 ![Architecture](roboshop.jpg)
 
-
-
 ---
 
-## ⭐ If You Like This Project
+## ⭐ Support
 
-Give it a star ⭐ on GitHub!
-
----
+If you found this project helpful, give it a ⭐ on GitHub!
